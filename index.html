@@ -3,103 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0b1220">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
-<title>القاضي: سيد المدينة — محاكاة قضائية استخباراتية</title>
-<link rel="stylesheet" href="css/style.css">
+<meta name="theme-color" content="#ff7ebb">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏰</text></svg>">
+<title>🏰 Maine Crafts للبنات — عالم ماريا 💖 3D مثل ماين كرافت</title>
+<link rel="stylesheet" href="css/style.css?v=maine2">
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
 </head>
 <body>
 <div id="boot">
   <div class="boot-card">
-    <div class="boot-badge">95% AI</div>
-    <h1>⚖️ القاضي: سيد المدينة</h1>
-    <p>قائد التحقيق العام + قاضٍ + مدير شرطة واستخبارات وميزانية مدينة كاملة.<br>المدينة لا تتوقف من أجلك.</p>
-    <div id="auth-box">
-      <div class="auth-tabs"><button id="tab-login" class="on" type="button">دخول</button><button id="tab-signup" type="button">حساب جديد</button></div>
-      <div id="auth-name-row" style="display:none"><input id="auth-name" placeholder="الاسم الكامل" autocomplete="name"></div>
-      <div style="display:grid;gap:8px;margin-top:8px">
-        <input id="auth-email" placeholder="البريد الإلكتروني" inputmode="email" autocomplete="email">
-        <input id="auth-pass" type="password" placeholder="كلمة السر" autocomplete="current-password">
-      </div>
-      <div class="boot-row"><button id="btn-auth" class="btn primary" type="button">دخول</button></div>
-      <div class="mut small" id="auth-err"></div>
+    <div class="boot-stars">✨ 💖 🌸 🦄 🌸 💖 ✨</div>
+    <h1>🏰 Maine Crafts<br><span>للبنات 💖</span></h1>
+    <p class="tagline">⛏️ كسّري • 🧱 ابنِ • 🚪 ادخلي البيوت • 🍰 اطبخي وتذوّقي • 👗 البسي • 🐄 حيوانات حقيقية<br>مثل ماين كرافت الأصلية — 3D كاملة 📱</p>
+    <div class="maria-box">
+      <label for="player-name">👧 اسمك:</label>
+      <input id="player-name" maxlength="16" value="Maria" placeholder="اكتبي اسمك…">
     </div>
-    <div id="city-box" style="display:none">
-      <div class="mut" id="hello-user"></div>
-      <div class="boot-row"><button id="btn-new" class="btn primary" type="button">🆕 مدينة جديدة</button><button id="btn-continue" class="btn" type="button">▶️ متابعة</button></div>
-      <div class="row"><button id="btn-logout" class="btn" type="button">تسجيل الخروج</button></div>
+    <button id="btn-start" class="btn-start">▶ العبي باسم <b id="start-name-preview">Maria</b> 💖</button>
+    <div class="features">
+      <span>⛏️ تكسير</span><span>🧱 تعمير</span><span>🚪 دخول البيوت</span><span>🍰 تذوق</span><span>🛏️ أثاث كامل</span><span>🐄 حيوانات</span><span>🌐 أونلاين</span>
     </div>
-    <p class="hint">تعمل على الجوال والتابلت • خريطة 3D • ذكاء اصطناعي عبر API مع مولّد محلي احتياطي • حفظ منفصل لكل حساب</p>
-    <p class="credit">💻 تطوير <b>Mr Aboudy</b> • <a href="https://wa.me/96181302718" target="_blank" rel="noopener">📱 ‎+96181302718‎</a></p>
+    <p class="hint">🕹️ WASD / عصا التحكم للمشي • اسحبي للنظر • ⛏️ للتكسير • 🧱 للبناء • ادخلي من الباب 🚪<br>تعمل أونلاين على الجوال والتابلت — حفظ تلقائي 💾</p>
   </div>
 </div>
 
-<header id="topbar">
-  <div class="tb-right">
-    <button id="menu-btn" class="icon-btn">☰</button>
-    <div class="tb-title">⚖️ سيد المدينة <span id="city-name"></span></div>
+<header id="hud">
+  <div class="hud-left">
+    <div id="avatar">👧</div>
+    <div>
+      <div id="hud-name">Maria 💖</div>
+      <div id="hud-level">Lv 1 • ⭐ 0</div>
+    </div>
   </div>
-  <div class="tb-left">
-    <div class="clock"><span id="hud-day">اليوم 1</span> • <span id="hud-time">08:00</span></div>
-    <div class="hud-money">💰 <span id="hud-money">0</span></div>
-    <button id="radio-fab" class="icon-btn radio">📻</button>
+  <div class="hud-stats">
+    <div class="stat">💰 <b id="coins">100</b></div>
+    <div class="stat">💖 <b id="hearts">10</b></div>
+    <div class="stat">🧁 <b id="sweets">0</b></div>
+    <div class="stat" id="clock">☀️ Day 1</div>
+  </div>
+  <div class="hud-btns">
+    <button id="btn-view" class="hbtn" title="كاميرا">📷</button>
+    <button id="btn-music" class="hbtn" title="Music">🎵</button>
+    <button id="btn-help" class="hbtn" title="Help">❓</button>
+    <button id="btn-save" class="hbtn" title="Save">💾</button>
   </div>
 </header>
 
-<div id="ticker"><div id="ticker-inner">…</div></div>
+<div id="quest">🌸 أهلاً <b>ماريا</b>! ادخلي بيتك من الباب 🚪 ثم كسّري خشبة ⛏️ <button id="quest-go">روحي ➜</button></div>
+<div id="target-info">🎯 —</div>
 
-<nav id="drawer">
-  <button data-tab="dash">🏠 القيادة</button>
-  <button data-tab="map">🗺️ الخريطة 3D</button>
-  <button data-tab="cases">📁 القضايا <b id="badge-cases"></b></button>
-  <button data-tab="court">⚖️ المحكمة</button>
-  <button data-tab="chat">💬 القيادات والفرق</button>
-  <button data-tab="officers">👮 الضباط <b id="badge-off"></b></button>
-  <button data-tab="budget">💰 الميزانية</button>
-  <button data-tab="prison">🔒 السجون</button>
-  <button data-tab="news">📰 الصحيفة</button>
-  <button data-tab="files">🗂️ السجلات</button>
-  <button data-tab="settings">⚙️ الإعدادات</button>
-</nav>
+<div id="game3d"></div>
+<div id="crosshair">＋</div>
+<div id="break-bar"><i></i></div>
+<div id="toast-wrap"></div>
+<div id="hearts-fly"></div>
 
-<main id="app">
-  <section id="tab-dash" class="tab active"></section>
-  <section id="tab-map" class="tab"><div id="map3d"></div><div id="map-legend"></div><div id="district-info"></div></section>
-  <section id="tab-cases" class="tab"></section>
-  <section id="tab-court" class="tab"></section>
-  <section id="tab-chat" class="tab"></section>
-  <section id="tab-officers" class="tab"></section>
-  <section id="tab-budget" class="tab"></section>
-  <section id="tab-prison" class="tab"></section>
-  <section id="tab-news" class="tab"></section>
-  <section id="tab-files" class="tab"></section>
-  <section id="tab-settings" class="tab"></section>
-</main>
-
-<div id="radio-panel" class="hidden">
-  <div class="rp-head">📻 اللاسلكي المشفر <button id="radio-close">✕</button></div>
-  <div class="rp-row"><select id="radio-target"></select></div>
-  <div id="radio-log"></div>
-  <div class="rp-row"><input id="radio-input" placeholder="اكتب أمرك… مثال: حددنا مكانه؟ خلي المراقبة مستمرة"><button id="radio-send" class="btn primary">إرسال</button></div>
+<div id="touch-ui">
+  <div id="joystick"><div id="stick">🕹️</div></div>
+  <div id="touch-btns">
+    <button id="t-jump" title="قفز">⬆️</button>
+    <button id="t-break" title="تكسير">⛏️</button>
+    <button id="t-place" title="بناء">🧱</button>
+    <button id="t-taste" title="تذوق">😋</button>
+  </div>
 </div>
 
-<div id="modal" class="hidden"><div id="modal-card"></div></div>
-<button id="alert-fab" class="hidden" type="button">🚨 حادث يحتاج قرارك</button>
-<div id="toast"></div>
+<nav id="toolbar">
+  <button data-panel="build" class="on">🧱<small>بناء</small></button>
+  <button data-panel="furniture">🛏️<small>أثاث</small></button>
+  <button data-panel="food">🍰<small>تذوق</small></button>
+  <button data-panel="dress">👗<small>ملابس</small></button>
+  <button data-panel="pets">🐄<small>حيوانات</small></button>
+  <button data-panel="world">🌸<small>العالم</small></button>
+</nav>
 
-<script src="js/config.js?v=8"></script>
-<script src="js/data.js?v=8"></script>
-<script src="js/ai.js?v=8"></script>
-<script src="js/auth.js?v=8"></script>
-<script src="js/state.js?v=8"></script>
-<script src="js/world.js?v=8"></script>
-<script src="js/cases.js?v=8"></script>
-<script src="js/court.js?v=8"></script>
-<script src="js/officers.js?v=8"></script>
-<script src="js/incidents.js?v=8"></script>
-<script src="js/map3d.js?v=8"></script>
-<script src="js/ui.js?v=8"></script>
-<script src="js/main.js?v=8"></script>
+<aside id="panel">
+  <div class="panel-head"><span id="panel-title">🧱 بناء</span><button id="panel-close">✕</button></div>
+  <div id="panel-body"></div>
+</aside>
+
+<div id="modal" class="hidden"><div id="modal-card">
+  <h2>💖 كيف تلعبين يا ماريا! 🌸</h2>
+  <ul>
+    <li>🕹️ <b>المشي:</b> WASD / الأسهم / عصا التحكم</li>
+    <li>👀 <b>النظر:</b> اسحبي الشاشة</li>
+    <li>⛏️ <b>التكسير:</b> وجّهي ＋ نحو المكعب واضغطي ⛏️ (أو كليك يسار) — الخشب والجداران كلها تتكسر!</li>
+    <li>🧱 <b>البناء:</b> اختاري مكعباً ثم اضغطي 🧱 (أو كليك يمين) — يُبنى بجانب المكعب</li>
+    <li>🚪 <b>دخول البيوت:</b> امشي نحو الباب الوردي — يفتح وحده! ادخلي وستجدين أثاثاً وسريراً ومطبخاً</li>
+    <li>🐄 <b>الحيوانات:</b> بقرة، خروف، خنزير، دجاجة، حصان — تقترب منك، أطعميها 🥕 لتُحبك وتتبعك!</li>
+    <li>🍰 <b>التذوق:</b> اقطفي الفواكه، اطبخي، ثم 😋 تذوّقي!</li>
+    <li>📷 زر الكاميرا يبدّل بين منظور الشخص الثالث والأول (مثل ماين كرافت F5)</li>
+  </ul>
+  <button id="modal-ok" class="btn-start">يلا نلعب! 💖</button>
+</div></div>
+
+<script type="module" src="js/maine.js?v=maine2"></script>
 </body>
 </html>
