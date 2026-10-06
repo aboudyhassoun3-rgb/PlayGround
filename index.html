@@ -3,103 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0b1220">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
-<title>القاضي: سيد المدينة — محاكاة قضائية استخباراتية</title>
+<meta name="theme-color" content="#0b1020">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏃</text></svg>">
+<title>باركور الأبطال 🏃‍♂️ | 220 مرحلة + قصر الاحتفال والزفاف</title>
 <link rel="stylesheet" href="css/style.css">
 <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
 </head>
 <body>
-<div id="boot">
-  <div class="boot-card">
-    <div class="boot-badge">95% AI</div>
-    <h1>⚖️ القاضي: سيد المدينة</h1>
-    <p>قائد التحقيق العام + قاضٍ + مدير شرطة واستخبارات وميزانية مدينة كاملة.<br>المدينة لا تتوقف من أجلك.</p>
-    <div id="auth-box">
-      <div class="auth-tabs"><button id="tab-login" class="on" type="button">دخول</button><button id="tab-signup" type="button">حساب جديد</button></div>
-      <div id="auth-name-row" style="display:none"><input id="auth-name" placeholder="الاسم الكامل" autocomplete="name"></div>
-      <div style="display:grid;gap:8px;margin-top:8px">
-        <input id="auth-email" placeholder="البريد الإلكتروني" inputmode="email" autocomplete="email">
-        <input id="auth-pass" type="password" placeholder="كلمة السر" autocomplete="current-password">
-      </div>
-      <div class="boot-row"><button id="btn-auth" class="btn primary" type="button">دخول</button></div>
-      <div class="mut small" id="auth-err"></div>
+<!-- شاشة البداية -->
+<div id="home" class="screen">
+  <div class="stars-bg"></div>
+  <div class="home-card">
+    <div class="logo-run">🏃‍♂️💨</div>
+    <h1>باركور الأبطال</h1>
+    <p class="sub">220 مرحلة صعبة 🔥 كل مرحلة أصعب من اللي قبلها<br>وفي النهاية: <b>هدايا 🎁 + قصر احتفال 🏰 + عرس وزفاف 💍 + قرآن كريم 📖 + الجمهور يهنئك 🎉</b></p>
+    <div class="save-line" id="save-line">🏆 تقدمك: المرحلة 1 / 220</div>
+    <div class="home-btns">
+      <button id="btn-play" class="btn big gold">▶️ العب</button>
+      <button id="btn-levels" class="btn big">🗺️ المراحل</button>
     </div>
-    <div id="city-box" style="display:none">
-      <div class="mut" id="hello-user"></div>
-      <div class="boot-row"><button id="btn-new" class="btn primary" type="button">🆕 مدينة جديدة</button><button id="btn-continue" class="btn" type="button">▶️ متابعة</button></div>
-      <div class="row"><button id="btn-logout" class="btn" type="button">تسجيل الخروج</button></div>
+    <div class="home-btns2">
+      <button id="btn-how" class="btn small">❓ كيف تلعب</button>
+      <button id="btn-quran-home" class="btn small">📖 قرآن</button>
+      <button id="btn-sound-home" class="btn small">🔊 الصوت: يعمل</button>
     </div>
-    <p class="hint">تعمل على الجوال والتابلت • خريطة 3D • ذكاء اصطناعي عبر API مع مولّد محلي احتياطي • حفظ منفصل لكل حساب</p>
+    <div class="features">
+      <span>✨ تأثيرات حية 3D</span><span>📱 جوال + تابلت</span><span>🎁 هدايا</span><span>💒 زفاف</span><span>🎆 ألعاب نارية</span><span>👥 جمهور حي</span>
+    </div>
     <p class="credit">💻 تطوير <b>Mr Aboudy</b> • <a href="https://wa.me/96181302718" target="_blank" rel="noopener">📱 ‎+96181302718‎</a></p>
   </div>
 </div>
 
-<header id="topbar">
-  <div class="tb-right">
-    <button id="menu-btn" class="icon-btn">☰</button>
-    <div class="tb-title">⚖️ سيد المدينة <span id="city-name"></span></div>
+<!-- شاشة المراحل -->
+<div id="levels-screen" class="screen hidden">
+  <div class="topbar">
+    <button id="btn-back-home" class="icon-btn">➡️ رجوع</button>
+    <div class="top-title">🗺️ اختر المرحلة <span id="levels-count">(220)</span></div>
+    <button id="btn-party-go" class="icon-btn gold">🏰 الاحتفال</button>
   </div>
-  <div class="tb-left">
-    <div class="clock"><span id="hud-day">اليوم 1</span> • <span id="hud-time">08:00</span></div>
-    <div class="hud-money">💰 <span id="hud-money">0</span></div>
-    <button id="radio-fab" class="icon-btn radio">📻</button>
+  <div class="diff-legend">
+    <span class="d d1">🟢 سهل 1-30</span><span class="d d2">🟡 متوسط 31-80</span><span class="d d3">🟠 صعب 81-140</span><span class="d d4">🔴 أسطوري 141-199</span><span class="d d5">👑 ملكي 200-220</span>
   </div>
-</header>
-
-<div id="ticker"><div id="ticker-inner">…</div></div>
-
-<nav id="drawer">
-  <button data-tab="dash">🏠 القيادة</button>
-  <button data-tab="map">🗺️ الخريطة 3D</button>
-  <button data-tab="cases">📁 القضايا <b id="badge-cases"></b></button>
-  <button data-tab="court">⚖️ المحكمة</button>
-  <button data-tab="chat">💬 القيادات والفرق</button>
-  <button data-tab="officers">👮 الضباط <b id="badge-off"></b></button>
-  <button data-tab="budget">💰 الميزانية</button>
-  <button data-tab="prison">🔒 السجون</button>
-  <button data-tab="news">📰 الصحيفة</button>
-  <button data-tab="files">🗂️ السجلات</button>
-  <button data-tab="settings">⚙️ الإعدادات</button>
-</nav>
-
-<main id="app">
-  <section id="tab-dash" class="tab active"></section>
-  <section id="tab-map" class="tab"><div id="map3d"></div><div id="map-legend"></div><div id="district-info"></div></section>
-  <section id="tab-cases" class="tab"></section>
-  <section id="tab-court" class="tab"></section>
-  <section id="tab-chat" class="tab"></section>
-  <section id="tab-officers" class="tab"></section>
-  <section id="tab-budget" class="tab"></section>
-  <section id="tab-prison" class="tab"></section>
-  <section id="tab-news" class="tab"></section>
-  <section id="tab-files" class="tab"></section>
-  <section id="tab-settings" class="tab"></section>
-</main>
-
-<div id="radio-panel" class="hidden">
-  <div class="rp-head">📻 اللاسلكي المشفر <button id="radio-close">✕</button></div>
-  <div class="rp-row"><select id="radio-target"></select></div>
-  <div id="radio-log"></div>
-  <div class="rp-row"><input id="radio-input" placeholder="اكتب أمرك… مثال: حددنا مكانه؟ خلي المراقبة مستمرة"><button id="radio-send" class="btn primary">إرسال</button></div>
+  <div id="levels-grid"></div>
 </div>
 
-<div id="modal" class="hidden"><div id="modal-card"></div></div>
-<button id="alert-fab" class="hidden" type="button">🚨 حادث يحتاج قرارك</button>
-<div id="toast"></div>
+<!-- واجهة اللعب -->
+<div id="game-ui" class="hidden">
+  <canvas id="c"></canvas>
+  <div id="hud">
+    <div class="hud-right">
+      <button id="btn-menu" class="hbtn">☰</button>
+      <div class="hcard"><div id="hud-level">المرحلة 1</div><div id="hud-diff">🟢 سهل</div></div>
+    </div>
+    <div class="hud-center"><div id="hud-progress"><i id="hud-progress-fill"></i></div><div id="hud-msg">🏁 اجري نحو البوابة الذهبية!</div></div>
+    <div class="hud-left">
+      <div class="hcard">⏱️ <span id="hud-time">0.0</span> • 💀 <span id="hud-deaths">0</span> • 🪙 <span id="hud-coins">0</span></div>
+      <button id="btn-restart" class="hbtn">🔄</button>
+      <button id="btn-mute" class="hbtn">🔊</button>
+    </div>
+  </div>
+  <div id="combo" class="hidden">🔥 كومبو ×2 !!</div>
+  <div id="cheer-bubbles"></div>
+  <!-- تحكم اللمس -->
+  <div id="touch">
+    <div id="joy"><div id="joy-knob"></div></div>
+    <div id="touch-btns">
+      <button id="btn-jump" class="tbtn jump">⬆️<small>قفز</small></button>
+      <button id="btn-cam" class="tbtn cam">🎥<small>كاميرا</small></button>
+    </div>
+  </div>
+  <div id="pause" class="hidden">
+    <div class="pause-card">
+      <h2>⏸️ إيقاف مؤقت</h2>
+      <div class="row"><button id="btn-resume" class="btn gold">▶️ متابعة</button><button id="btn-restart2" class="btn">🔄 إعادة</button></div>
+      <div class="row"><button id="btn-quit" class="btn">🏠 القائمة</button><button id="btn-next-locked" class="btn">⏭️ التالية</button></div>
+      <div class="row"><button id="btn-quran" class="btn">📖 قرآن: <span id="quran-state">متوقف</span></button><button id="btn-cheer" class="btn">🎉 تهليل الجمهور</button></div>
+      <label class="chk"><input type="checkbox" id="chk-vib" checked> اهتزاز عند السقوط 📳</label>
+      <label class="chk"><input type="checkbox" id="chk-quality" checked> جودة عالية (أطفئها للجوال الضعيف)</label>
+    </div>
+  </div>
+  <div id="win" class="hidden">
+    <div class="win-card">
+      <div class="win-emoji" id="win-emoji">🏆</div>
+      <h2 id="win-title">أحسنت! 🎉</h2>
+      <p id="win-sub"></p>
+      <div id="win-stars">⭐⭐⭐</div>
+      <div class="win-stats"><span>⏱️ <b id="win-time"></b></span><span>💀 <b id="win-deaths"></b></span><span>🪙 <b id="win-coins"></b></span></div>
+      <div class="row"><button id="btn-next" class="btn gold">⏭️ المرحلة التالية</button><button id="btn-replay" class="btn">🔄 إعادة</button><button id="btn-home2" class="btn">🏠</button></div>
+      <button id="btn-goto-party" class="btn party hidden">🏰 ادخل قصر الاحتفال والزفاف 💍</button>
+    </div>
+  </div>
+  <div id="toast"></div>
+</div>
 
-<script src="js/config.js?v=8"></script>
-<script src="js/data.js?v=8"></script>
-<script src="js/ai.js?v=8"></script>
-<script src="js/auth.js?v=8"></script>
-<script src="js/state.js?v=8"></script>
-<script src="js/world.js?v=8"></script>
-<script src="js/cases.js?v=8"></script>
-<script src="js/court.js?v=8"></script>
-<script src="js/officers.js?v=8"></script>
-<script src="js/incidents.js?v=8"></script>
-<script src="js/map3d.js?v=8"></script>
-<script src="js/ui.js?v=8"></script>
-<script src="js/main.js?v=8"></script>
+<!-- قصر الاحتفال -->
+<div id="party-ui" class="hidden">
+  <canvas id="c2"></canvas>
+  <div id="party-hud">
+    <div class="party-title">🏰 قصر الاحتفال الكبير 💍 <span id="party-sub2">مبارك وصولك! 🎉</span></div>
+    <div class="party-row">
+      <button id="btn-party-back" class="hbtn">➡️ رجوع</button>
+      <button id="btn-open-all" class="hbtn gold">🎁 افتح كل الهدايا</button>
+      <button id="btn-fireworks" class="hbtn">🎆 ألعاب نارية</button>
+      <button id="btn-quran2" class="hbtn">📖 قرآن</button>
+      <button id="btn-congrats" class="hbtn gold">🎉 هنئوني!</button>
+    </div>
+    <div id="gift-bar">🎁 الهدايا المفتوحة: <b id="gift-count">0 / 10</b> <div id="gift-progress"><i></i></div></div>
+  </div>
+  <div id="gift-modal" class="hidden"><div class="gift-card"><div id="gift-emoji">🎁</div><h3 id="gift-title"></h3><p id="gift-text"></p><button id="gift-close" class="btn gold">مبارك! 🎉</button></div></div>
+  <div id="party-cheer"></div>
+</div>
+
+<audio id="quran" loop preload="none" controls style="display:none"></audio>
+<div id="rotate-tip">📱 اقلب جهازك أفقياً لتجربة أفضل 🔄</div>
+
+<script type="module" src="js/parkour.js?v=1"></script>
 </body>
 </html>
