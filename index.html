@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+<title>القاضي: سيد المدينة — محاكاة قضائية استخباراتية</title>
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
+</head>
+<body>
+<div id="boot">
+  <div class="boot-card">
+    <div class="boot-badge">95% AI</div>
+    <h1>⚖️ القاضي: سيد المدينة</h1>
+    <p>قائد التحقيق العام + قاضٍ + مدير شرطة واستخبارات وميزانية مدينة كاملة.<br>المدينة لا تتوقف من أجلك.</p>
+    <div id="auth-box">
+      <div class="auth-tabs"><button id="tab-login" class="on" type="button">دخول</button><button id="tab-signup" type="button">حساب جديد</button></div>
+      <div id="auth-name-row" style="display:none"><input id="auth-name" placeholder="الاسم الكامل" autocomplete="name"></div>
+      <div style="display:grid;gap:8px;margin-top:8px">
+        <input id="auth-email" placeholder="البريد الإلكتروني" inputmode="email" autocomplete="email">
+        <input id="auth-pass" type="password" placeholder="كلمة السر" autocomplete="current-password">
+      </div>
+      <div class="boot-row"><button id="btn-auth" class="btn primary" type="button">دخول</button></div>
+      <div class="mut small" id="auth-err"></div>
+    </div>
+    <div id="city-box" style="display:none">
+      <div class="mut" id="hello-user"></div>
+      <div class="boot-row"><button id="btn-new" class="btn primary" type="button">🆕 مدينة جديدة</button><button id="btn-continue" class="btn" type="button">▶️ متابعة</button></div>
+      <div class="row"><button id="btn-logout" class="btn" type="button">تسجيل الخروج</button></div>
+    </div>
+    <p class="hint">تعمل على الجوال والتابلت • خريطة 3D • ذكاء اصطناعي عبر API مع مولّد محلي احتياطي • حفظ منفصل لكل حساب</p>
+  </div>
+</div>
+
+<header id="topbar">
+  <div class="tb-right">
+    <button id="menu-btn" class="icon-btn">☰</button>
+    <div class="tb-title">⚖️ سيد المدينة <span id="city-name"></span></div>
+  </div>
+  <div class="tb-left">
+    <div class="clock"><span id="hud-day">اليوم 1</span> • <span id="hud-time">08:00</span></div>
+    <div class="hud-money">💰 <span id="hud-money">0</span></div>
+    <button id="radio-fab" class="icon-btn radio">📻</button>
+  </div>
+</header>
+
+<div id="ticker"><div id="ticker-inner">…</div></div>
+
+<nav id="drawer">
+  <button data-tab="dash">🏠 القيادة</button>
+  <button data-tab="map">🗺️ الخريطة 3D</button>
+  <button data-tab="cases">📁 القضايا <b id="badge-cases"></b></button>
+  <button data-tab="court">⚖️ المحكمة</button>
+  <button data-tab="chat">💬 القيادات والفرق</button>
+  <button data-tab="officers">👮 الضباط <b id="badge-off"></b></button>
+  <button data-tab="budget">💰 الميزانية</button>
+  <button data-tab="prison">🔒 السجون</button>
+  <button data-tab="news">📰 الصحيفة</button>
+  <button data-tab="files">🗂️ السجلات</button>
+  <button data-tab="settings">⚙️ الإعدادات</button>
+</nav>
+
+<main id="app">
+  <section id="tab-dash" class="tab active"></section>
+  <section id="tab-map" class="tab"><div id="map3d"></div><div id="map-legend"></div><div id="district-info"></div></section>
+  <section id="tab-cases" class="tab"></section>
+  <section id="tab-court" class="tab"></section>
+  <section id="tab-chat" class="tab"></section>
+  <section id="tab-officers" class="tab"></section>
+  <section id="tab-budget" class="tab"></section>
+  <section id="tab-prison" class="tab"></section>
+  <section id="tab-news" class="tab"></section>
+  <section id="tab-files" class="tab"></section>
+  <section id="tab-settings" class="tab"></section>
+</main>
+
+<div id="radio-panel" class="hidden">
+  <div class="rp-head">📻 اللاسلكي المشفر <button id="radio-close">✕</button></div>
+  <div class="rp-row"><select id="radio-target"></select></div>
+  <div id="radio-log"></div>
+  <div class="rp-row"><input id="radio-input" placeholder="اكتب أمرك… مثال: حددنا مكانه؟ خلي المراقبة مستمرة"><button id="radio-send" class="btn primary">إرسال</button></div>
+</div>
+
+<div id="modal" class="hidden"><div id="modal-card"></div></div>
+<button id="alert-fab" class="hidden" type="button">🚨 حادث يحتاج قرارك</button>
+<div id="toast"></div>
+
+<script src="js/config.js?v=7"></script>
+<script src="js/data.js?v=7"></script>
+<script src="js/ai.js?v=7"></script>
+<script src="js/auth.js?v=7"></script>
+<script src="js/state.js?v=7"></script>
+<script src="js/world.js?v=7"></script>
+<script src="js/cases.js?v=7"></script>
+<script src="js/court.js?v=7"></script>
+<script src="js/officers.js?v=7"></script>
+<script src="js/incidents.js?v=7"></script>
+<script src="js/map3d.js?v=7"></script>
+<script src="js/ui.js?v=7"></script>
+<script src="js/main.js?v=7"></script>
+</body>
+</html>
