@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>LuxeTok — مثل تيك توك تماماً</title>
+<meta name="description" content="LuxeTok نسخة طبق الأصل من تيك توك بلمسة فاخرة + لوحة أدمِن">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div id="bg-orbs"><span class="orb o1"></span><span class="orb o2"></span></div>
+
+<!-- ===== Topbar TikTok style ===== -->
+<header id="topbar">
+  <div class="logo" onclick="go('feed')"><span class="logo-mark">♪</span><b>Tik<i>Tok</i></b><em class="gold-tag">LUXE</em></div>
+  <div id="routeTitle" class="mob-only"></div>
+  <div class="top-search"><i class="fa fa-search"></i><input id="topSearch" placeholder="بحث" oninput="onSearch(this.value)"></div>
+  <div class="top-actions">
+    <div class="ta-group">
+      <button class="icon-btn tbtn" id="refreshBtn" onclick="refreshFeed()" title="تحديث الفيد"><i class="fa-solid fa-rotate-right"></i></button>
+      <button class="icon-btn tbtn" id="soundTopBtn" onclick="toggleGlobalSound()" title="الصوت">🔇</button>
+      <button class="icon-btn tbtn mob-only" onclick="go('live')" title="بث مباشر"><i class="fa-solid fa-satellite-dish"></i></button>
+    </div>
+    <button class="btn upload-btn" onclick="openUpload()"><span class="up-plus">+</span><span class="desk-only">رفع</span></button>
+    <button class="btn ghost sm desk-only" id="authTopBtn" onclick="openAuth()">تسجيل الدخول</button>
+    <button class="icon-btn gold" id="adminTopBtn" title="لوحة الأدمِن" onclick="go('admin')" style="display:none"><i class="fa-solid fa-crown"></i></button>
+  </div>
+</header>
+
+<div id="layout">
+  <!-- ===== Sidebar (desktop like TikTok) ===== -->
+  <aside id="sidebar">
+    <nav id="nav">
+      <button data-r="feed" class="active" onclick="go('feed')"><i class="fa-solid fa-house"></i><span>الرئيسية</span></button>
+      <button data-r="discover" onclick="go('discover')"><i class="fa-solid fa-compass"></i><span>اكتشف</span></button>
+      <button data-r="following" onclick="go('following')"><i class="fa-solid fa-user-group"></i><span>أتابعهم</span></button>
+      <button data-r="live" onclick="go('live')"><i class="fa-solid fa-satellite-dish"></i><span>لايف</span><span class="live-dot"></span></button>
+      <button data-r="inbox" onclick="go('inbox')"><i class="fa-solid fa-message"></i><span>الوارد</span><span class="pill" id="inboxPill" style="display:none"></span></button>
+      <button data-r="profile" onclick="goMyProfile()"><i class="fa-solid fa-circle-user"></i><span>حسابي</span></button>
+      <button data-r="admin" id="navAdmin" style="display:none" onclick="go('admin')"><i class="fa-solid fa-crown"></i><span>الأدمِن</span></button>
+    </nav>
+    <button class="btn primary block" onclick="openUpload()">+ إنشاء</button>
+    <div class="side-card"><h4>الحسابات المقترحة</h4><div id="sideArtists"></div></div>
+    <div class="side-card"><h4>تريند الآن</h4><div id="sideTrends"></div></div>
+    <p class="side-foot">LuxeTok © 2026<br>aboudyhassoun3@gmail.com</p>
+  </aside>
+
+  <!-- ===== Main ===== -->
+  <main id="main">
+    <section id="view-feed" class="view active">
+      <div class="feed-tabs tiktok-tabs">
+        <button id="tabFollowing" onclick="setFeedTab('following')">أتابعهم</button>
+        <button id="tabForYou" class="on" onclick="setFeedTab('foryou')">لك</button>
+        <button id="tabArtists" onclick="setFeedTab('artists')">⭐ الفنانون</button>
+      </div>
+      <div id="soundHint" class="sound-hint" onclick="toggleGlobalSound(true)">🔇 الفيديو صامت — اضغط لتفعيل الصوت 🔊</div>
+      <div id="feed" class="feed"></div>
+    </section>
+
+    <section id="view-discover" class="view">
+      <div class="search-bar-mob"><i class="fa fa-search"></i><input placeholder="ابحث عن فيديو، شخص، صوت..." oninput="onSearch(this.value)"></div>
+      <div class="chips" id="trendChips"></div>
+      <div class="discover-grid" id="discoverGrid"></div>
+      <div class="sounds-head"><h2 class="page-title">🎵 مكتبة الأصوات</h2><button class="btn gold sm" id="uploadSoundBtn" onclick="openSoundUpload()">+ نشر أغنية (للفنانين)</button></div>
+      <div class="sounds" id="soundsRow"></div>
+    </section>
+
+    <section id="view-sound" class="view">
+      <div class="sound-page" id="soundPage"></div>
+      <div class="profile-grid" id="soundGrid" style="margin-top:12px"></div>
+    </section>
+
+    <section id="view-following" class="view">
+      <h2 class="page-title">أتابعهم</h2>
+      <div id="followingFeed" class="feed"></div>
+    </section>
+
+    <section id="view-live" class="view"><h2 class="page-title">بث مباشر <span class="live-badge">LIVE</span></h2><div class="live-grid" id="liveGrid"></div></section>
+
+    <section id="view-inbox" class="view">
+      <h2 class="page-title">صندوق الوارد</h2>
+      <div class="inbox-tabs"><button class="on" onclick="setInboxTab('msgs',this)">الرسائل</button><button onclick="setInboxTab('activity',this)">النشاط</button></div>
+      <div class="inbox-wrap"><div class="inbox-list" id="inboxList"></div>
+        <div class="chat" id="chatBox">
+          <div class="chat-head"><div class="avatar" id="chatAvatar">L</div><div><b id="chatName">الرسائل</b><small id="chatStatus">اختر محادثة 💬</small></div></div>
+          <div class="chat-msgs" id="chatMsgs"><div class="empty">اختر محادثة 👋</div></div>
+          <div class="chat-input"><input id="chatText" placeholder="أرسل رسالة..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn primary sm" onclick="sendMsg()"><i class="fa fa-paper-plane"></i></button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-profile" class="view">
+      <div class="tt-profile" id="profileHero"></div>
+      <div class="profile-tabs-tt" id="profileTabs">
+        <button class="on" onclick="setProfileTab('videos',this)"><i class="fa-solid fa-table-cells"></i></button>
+        <button onclick="setProfileTab('liked',this)"><i class="fa-solid fa-heart"></i></button>
+        <button onclick="setProfileTab('saved',this)"><i class="fa-solid fa-bookmark"></i></button>
+      </div>
+      <div class="profile-grid" id="profileGrid"></div>
+    </section>
+
+    <section id="view-admin" class="view">
+      <div id="adminGate"></div>
+      <div id="adminPanel" style="display:none">
+        <div class="admin-hero">
+          <div><h2>👑 لوحة الأدمِن</h2><p>aboudyhassoun3@gmail.com</p></div>
+          <div class="admin-hero-btns"><button class="btn gold sm" onclick="exportDB()">نسخة احتياطية</button><button class="btn ghost sm" onclick="resetDemo()">استعادة الديمو</button></div>
+        </div>
+        <div class="stats" id="adminStats"></div>
+        <div class="admin-tabs" id="adminTabs">
+          <button class="on" onclick="setAdminTab('overview',this)">نظرة عامة</button>
+          <button onclick="setAdminTab('users',this)">المستخدمون</button>
+          <button onclick="setAdminTab('videos',this)">الفيديوهات</button>
+          <button onclick="setAdminTab('verify',this)">التوثيق <span class="pill" id="verifyPill"></span></button>
+          <button onclick="setAdminTab('reports',this)">البلاغات <span class="pill" id="reportPill"></span></button>
+          <button onclick="setAdminTab('settings',this)">الإعدادات</button>
+        </div>
+        <div id="adminContent" class="admin-content"></div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="rail">
+    <div class="rail-card" id="railLogin">
+      <h3>تسجيل الدخول إلى LuxeTok</h3>
+      <p>تابع صناع المحتوى وسجّل إعجابك وعلّق وشارك.</p>
+      <button class="btn primary block" onclick="openAuth()">تسجيل الدخول</button>
+      <button class="btn gold block sm" onclick="quickAdminLogin()">👑 دخول الأدمِن</button>
+    </div>
+    <div class="rail-card" id="railUser" style="display:none"></div>
+    <div class="rail-card"><h4>حسابات مقترحة</h4><div id="suggested"></div></div>
+    <div class="rail-card wallet"><h4>🪙 المحفظة: <b id="coinBal">0</b></h4><small class="muted">تُكتسب العملات بالنشاط الحقيقي: +20 عند التسجيل، +10 لكل فيديو تنشره، +1 عن كل إعجاب يصلك. أرسلها هدايا في البث 🎁</small></div>
+  </aside>
+</div>
+
+<!-- ===== Bottom Nav (TikTok mobile exact) ===== -->
+<nav id="bottomNav">
+  <button data-r="feed" class="active" onclick="go('feed')"><i class="fa-solid fa-house"></i><span>الرئيسية</span></button>
+  <button data-r="discover" onclick="go('discover')"><i class="fa-solid fa-compass"></i><span>اكتشف</span></button>
+  <button class="create" onclick="openUpload()"><span class="create-inner"><i class="fa fa-plus"></i></span><span class="clabel">إنشاء</span></button>
+  <button data-r="inbox" onclick="go('inbox')"><span class="nbadge" id="bottomInboxBadge" style="display:none"></span><i class="fa-solid fa-message"></i><span>الوارد</span></button>
+  <button data-r="profile" onclick="goMyProfile()"><i class="fa-solid fa-user"></i><span>حسابي</span></button>
+</nav>
+
+<!-- Modals -->
+<div class="modal" id="authModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('authModal')">✕</button>
+  <div class="logo center"><span class="logo-mark lg">♪</span><b>Tik<i>Tok</i> LUXE</b></div>
+  <h2>تسجيل الدخول</h2><p class="muted">الأدمِن: <code>aboudyhassoun3@gmail.com</code> / <code>admin123</code></p>
+  <input id="a_name" placeholder="الاسم (للتسجيل)">
+  <input id="a_email" placeholder="البريد الإلكتروني" inputmode="email">
+  <input id="a_pass" type="password" placeholder="كلمة المرور">
+  <select id="a_type"><option value="user">حساب عادي</option><option value="artist">حساب فنان 🎤</option><option value="brand">علامة تجارية 🏢</option></select>
+  <button class="btn primary block big-touch" onclick="doAuth('login')">دخول</button>
+  <button class="btn ghost block big-touch" onclick="doAuth('register')">إنشاء حساب</button>
+  <button class="btn gold block big-touch" onclick="quickAdminLogin()">👑 دخول الأدمِن</button>
+</div></div>
+
+<div class="modal" id="uploadModal"><div class="sheet bottom-sheet wide">
+  <span class="grab"></span><button class="x" onclick="closeModal('uploadModal')">✕</button>
+  <h2>📤 نشر فيديو</h2>
+  <button class="btn gold block big-touch" onclick="closeModal('uploadModal');openCamera()">📷 تصوير بالكاميرا مع مؤثرات</button>
+  <div class="up-grid">
+    <label class="drop" id="dropZone"><input type="file" id="upFile" accept="video/*" hidden onchange="previewUpload(this)">
+      <video id="upPrev" muted loop playsinline style="display:none"></video>
+      <div id="dropHint"><i class="fa-solid fa-cloud-arrow-up"></i><p>اضغط لاختيار فيديو من جهازك</p><small>MP4 / WebM — يُنشر فوراً في الفيد</small></div>
+    </label>
+    <div class="up-form">
+      <input id="upTitle" placeholder="عنوان الفيديو..."><textarea id="upDesc" placeholder="الوصف..."></textarea>
+      <input id="upTags" placeholder="#هاشتاغات">
+      <select id="upSound"><option>الصوت الأصلي 🎵</option><option>إيقاع عربي حماسي 🔥</option><option>عود شرقي 🎻</option><option>تريند الرقص 💃</option><option>سينمائي فاخر 🎬</option></select>
+      <label class="row-check"><input type="checkbox" id="upComments" checked> السماح بالتعليقات</label>
+      <button class="btn primary block big-touch" onclick="publishVideo()">🚀 نشر</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal" id="commentsModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('commentsModal')">✕</button>
+  <h3>التعليقات <span id="cCount"></span></h3>
+  <div class="clist" id="commentList"></div>
+  <div class="chat-input sticky-input"><input id="commentText" placeholder="أضف تعليقاً..." onkeydown="if(event.key==='Enter')sendComment()"><button class="btn primary" onclick="sendComment()">➤</button></div>
+</div></div>
+
+<div class="modal" id="shareModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('shareModal')">✕</button>
+  <h3>مشاركة</h3>
+  <div class="share-row">
+    <button onclick="copyVideoLink()">🔗<span>نسخ الرابط</span></button>
+    <button onclick="downloadVideo()">⬇️<span>تحميل</span></button>
+    <button onclick="doDuet()">🎬<span>ديو</span></button>
+    <button onclick="saveSharedVideo()">🔖<span>حفظ</span></button>
+    <button onclick="closeModal('shareModal')">✕<span>إغلاق</span></button>
+  </div>
+</div></div>
+
+<div class="modal" id="profileModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('profileModal')">✕</button>
+  <h3>تعديل الملف الشخصي</h3>
+  <div class="avatar-edit">
+    <img id="avatarPrevImg" class="avatar-prev" alt="الصورة الشخصية">
+    <div class="avatar-btns">
+      <label class="btn primary sm big-touch">📷 رفع صورة من جهازك<input type="file" id="avatarFile" accept="image/*" hidden onchange="handleAvatarFile(this)"></label>
+      <button class="btn ghost sm" onclick="clearAvatar()">إزالة</button>
+    </div>
+  </div>
+  <div id="avatarEditPrev" style="display:none"></div>
+  <input id="p_bio" placeholder="النبذة التعريفية">
+  <button class="btn primary block big-touch" onclick="saveProfile()">حفظ</button>
+  <h4>طلب توثيق ✅ / فنان 🎤</h4>
+  <select id="v_type"><option value="verified">توثيق أزرق ✅</option><option value="artist">فنان ذهبي 🎤</option><option value="brand">علامة 🏢</option></select>
+  <input id="v_reason" placeholder="سبب الطلب...">
+  <button class="btn gold block big-touch" onclick="requestVerify()">إرسال الطلب</button>
+</div></div>
+
+<!-- ===== TikTok Camera Studio ===== -->
+<div class="modal" id="cameraModal">
+  <div class="cam-screen">
+    <div class="rec-progress"><span id="recProg"></span></div>
+    <div class="cam-top">
+      <button class="cam-icon" onclick="closeCamera()">✕</button>
+      <div class="cam-durs">
+        <button class="on" onclick="setRecMax(15,this)">15s</button>
+        <button onclick="setRecMax(60,this)">60s</button>
+        <button id="cdBtn" onclick="cycleCountdown()">⏱ بدون مؤقت</button>
+      </div>
+      <button class="cam-icon" onclick="flipCamera()" title="قلب الكاميرا">🔄</button>
+    </div>
+    <div id="cdOverlay" class="cd-overlay" style="display:none">3</div>
+    <div class="cam-stage">
+      <video id="camLive" muted playsinline autoplay style="display:none"></video>
+      <canvas id="camCanvas"></canvas>
+      <video id="camPreview" controls playsinline loop style="display:none"></video>
+    </div>
+    <p id="camMsg" class="cam-msg">جارِ تشغيل الكاميرا... 📷</p>
+    <div class="cam-rail" id="camRail">
+      <button onclick="toggleFilterSheet()"><span class="e">🎨</span><span>مؤثرات</span></button>
+      <button id="beautyBtn" onclick="toggleBeauty()"><span class="e">✨</span><span>تجميل</span></button>
+      <button onclick="flipCamera()"><span class="e">🔄</span><span>قلب</span></button>
+      <button onclick="cycleCountdown()"><span class="e">⏱</span><span>مؤقت</span></button>
+    </div>
+    <div class="cam-filters" id="camFilters" style="display:none"></div>
+    <div class="cam-bottom" id="camBottom">
+      <div id="recTime">00:00 / 00:15</div>
+      <div class="cam-row">
+        <button class="cam-side" onclick="closeCamera();openModal('uploadModal')">🖼<span>رفع</span></button>
+        <button id="recBtn" onclick="recToggle()"><span></span></button>
+        <button class="cam-side" id="nextBtn" style="visibility:hidden" onclick="camNext()">✓<span>التالي</span></button>
+      </div>
+      <p class="muted">اضغط للتسجيل • اضغط مجدداً للإيقاف المؤقت • مطوّلاً؟ لا — بسيط مثل تيك توك</p>
+    </div>
+    <div class="cam-details" id="camDetails" style="display:none">
+      <h3>📝 تفاصيل الفيديو</h3>
+      <div class="cam-prev-mini"><video id="camPreviewMini" muted playsinline loop></video><button class="mini" onclick="camRetake()">↺ إعادة التصوير</button></div>
+      <input id="camTitle" placeholder="عنوان الفيديو...">
+      <input id="camTags" placeholder="#هاشتاغات (افصل بمسافة)">
+      <select id="camSound"><option>الصوت الأصلي 🎵</option><option>إيقاع عربي حماسي 🔥</option><option>عود شرقي 🎻</option><option>تريند الرقص 💃</option><option>سينمائي فاخر 🎬</option></select>
+      <label class="row-check"><input type="checkbox" id="camComments" checked> السماح بالتعليقات</label>
+      <button class="btn primary block big-touch" onclick="publishRecorded()">🚀 نشر الفيديو</button>
+      <button class="btn ghost block" onclick="camBackToRec()">رجوع</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Followers / Following sheet ===== -->
+<div class="modal" id="followModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('followModal')">✕</button>
+  <h3 id="followTitle">المتابِعون</h3>
+  <div class="clist" id="followList"></div>
+</div></div>
+
+<!-- ===== Profile ••• menu ===== -->
+<div class="modal" id="menuModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('menuModal')">✕</button>
+  <h3 id="menuTitle">القائمة</h3>
+  <div class="menu-list" id="menuList"></div>
+</div></div>
+
+<!-- ===== Live Room (TikTok exact) ===== -->
+<div class="modal" id="liveModal">
+  <div class="live-room">
+    <video id="liveOwnerVideo" muted playsinline autoplay style="display:none"></video>
+    <div class="live-stage-fallback" id="liveStageFallback">
+      <div class="tt-avatar-big" id="liveOwnerAvatar">L</div>
+      <div class="live-pulse">🔴 بث مباشر</div>
+      <small class="muted" id="liveFallbackNote"></small>
+    </div>
+    <div class="live-gradient"></div>
+    <div class="live-topbar">
+      <div class="live-owner" id="liveOwnerChip" onclick="openLiveOwner()"></div>
+      <div class="live-viewers" id="liveViewers">👁 0</div>
+      <button class="cam-icon" onclick="closeLiveRoom()">✕</button>
+    </div>
+    <div class="live-rail" id="liveRail">
+      <button onclick="liveFlip()" id="liveFlipBtn" style="display:none"><span class="e">🔄</span></button>
+      <button onclick="liveMuteToggle()" id="liveMuteBtn" style="display:none"><span class="e">🎙</span></button>
+      <button onclick="sendLiveHeart()">❤️<small id="liveLikes">0</small></button>
+      <button onclick="toggleLiveGifts()">🎁</button>
+      <button onclick="liveShare()">⤴</button>
+    </div>
+    <div class="live-hearts" id="liveHearts"></div>
+    <div class="live-chat" id="liveChat"></div>
+    <div class="live-giftbar" id="liveGiftBar" style="display:none">
+      <button onclick="sendLiveGift('🌹',10)">🌹<span>10</span></button>
+      <button onclick="sendLiveGift('☕',20)">☕<span>20</span></button>
+      <button onclick="sendLiveGift('🎁',50)">🎁<span>50</span></button>
+      <button onclick="sendLiveGift('💎',100)">💎<span>100</span></button>
+      <button onclick="sendLiveGift('👑',200)">👑<span>200</span></button>
+      <button onclick="sendLiveGift('🚀',500)">🚀<span>500</span></button>
+    </div>
+    <div class="live-bottom">
+      <div class="live-input"><input id="liveMsgInput" placeholder="أضف تعليقاً..." onkeydown="if(event.key==='Enter')sendLiveMsg()"></div>
+      <button class="live-end" id="liveEndBtn" style="display:none" onclick="endLive()">إنهاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Start Live sheet ===== -->
+<div class="modal" id="startLiveModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('startLiveModal')">✕</button>
+  <h3>🔴 بدء بث مباشر</h3>
+  <p class="muted">ستظهر صورتك وصوتك (كاميرا جهازك) داخل غرفة البث. المشاهدون يتفاعلون بالدردشة والهدايا لحظياً.</p>
+  <input id="liveTitleInput" placeholder="عنوان البث...">
+  <button class="btn primary block big-touch" onclick="confirmStartLive()">🔴 بدء البث الآن</button>
+</div></div>
+
+<!-- ===== Upload Sound (artists) ===== -->
+<div class="modal" id="soundModal"><div class="sheet bottom-sheet">
+  <span class="grab"></span><button class="x" onclick="closeModal('soundModal')">✕</button>
+  <h3>🎵 نشر أغنية / صوت</h3>
+  <p class="muted">كفنان يمكنك نشر أغنيتك ليستخدمها صناع الفيديو. الملفات حتى 2.5MB تُحفظ دائماً، الأكبر تعمل لجلسة واحدة.</p>
+  <input id="sndTitle" placeholder="اسم الأغنية...">
+  <label class="btn ghost block big-touch">🎵 اختيار ملف صوتي (MP3)<input type="file" id="sndFile" accept="audio/*" hidden onchange="previewSound(this)"></label>
+  <div id="sndPrev" class="muted">لم يُختر ملف بعد</div>
+  <button class="btn gold block big-touch" onclick="publishSound()">نشر الأغنية 🚀</button>
+</div></div>
+
+<div id="toast"></div><div id="bigHeart">❤️</div>
+<script src="./app.js"></script>
+</body>
+</html>
