@@ -85,9 +85,19 @@ function pushIncidentStage(inc){
   if(!S.alertQueue.includes(inc.id)) S.alertQueue.push(inc.id);
   try{toast(`🚨 ${inc.title} — تحتاج قرارك`);}catch(e){}
 }
-function inboxAdd(from,text){
-  const S=window.S; S.inbox.unshift({day:S.day,time:clockNow(),from,text});
+function inboxAdd(from,text,key){
+  const S=window.S; S.inbox=S.inbox||[];
+  const sig=(key||text).slice(0,90);
+  // منع التكرار: نفس البصمة خلال آخر 8 رسائل = دمج/تجاهل
+  const recent=S.inbox.slice(0,8);
+  const dup=recent.find(m=>m.sig===from+":"+sig);
+  if(dup){ dup.n=(dup.n||1)+1; dup.time=clockNow(); save(); return dup; }
+  // تهدئة: نفس المرسل لا يرسل أكثر من رسالتين متتاليتين
+  if(recent.length>=2 && recent[0].from===from && recent[1].from===from && from!=="sys") return null;
+  const m={day:S.day,time:clockNow(),from,text,sig:from+":"+sig};
+  S.inbox.unshift(m);
   if(S.inbox.length>30)S.inbox.pop();
+  return m;
 }
 function clockNow(){ return String(window.S.hour).padStart(2,"0")+":"+String(window.S.min).padStart(2,"0"); }
 function decideIncident(id, choiceId){

@@ -44,7 +44,7 @@ function renderDash(){
     <div class="row"><button type="button" class="btn primary" onclick="showAlertQueue(true)">⚡ افتح غرفة القرار</button></div></div>`}).join("")}</div>`:""}
   <div class="grid2">
    <div class="card"><h3>📥 بريد المكتب الوارد</h3>
-    ${(S.inbox||[]).slice(0,5).map(m=>`<div class="inbox-msg"><span class="who">${m.from==="pol"?"👮 قائد الشرطة":m.from==="int"?"🛰️ الاستخبارات":"📢 النظام"}:</span> ${escHtml(m.text.slice(0,160))}<div class="meta">يوم ${m.day} • ${m.time}</div></div>`).join("")||"<span class='mut'>هادئ… حتى الآن.</span>"}
+    ${(S.inbox||[]).slice(0,5).map(m=>`<div class="inbox-msg"><span class="who">${m.from==="pol"?"👮 قائد الشرطة":m.from==="int"?"🛰️ الاستخبارات":m.from==="off"?"👮 ضابط ميداني":"📢 النظام"}:</span> ${escHtml(m.text.slice(0,160))}${m.n?` <span class="tag">×${m.n}</span>`:""}<div class="meta">يوم ${m.day} • ${m.time}</div></div>`).join("")||"<span class='mut'>هادئ… حتى الآن.</span>"}
     <div class="mut small">الرسائل الكاملة في تبويب 💬 القيادات.</div></div>
    <div class="card"><h3>🗓️ جدول اليوم واستمراريتك</h3>
     <div class="kv"><span>📁 قضايا مفتوحة</span><b>${open.length}</b></div>
@@ -66,7 +66,8 @@ function renderDash(){
    </div></div>
   <div class="card"><h3>🚨 الطوارئ (${S.emergencies.filter(e=>!e.done).length})</h3>
    ${S.emergencies.filter(e=>!e.done).slice(0,6).map(e=>`<div class="person"><b>${e.text}</b> <span class="mut">${e.dist} — يوم ${e.day}</span><div class="row"><button type="button" class="btn primary" onclick="resolveEmergency('${e.id}')">تحرك (يستهلك ضباطاً)</button><button type="button" class="btn" onclick="ignoreEmergency('${e.id}')">تجاهل</button></div></div>`).join("")||"<span class='mut'>لا طوارئ حالياً.</span>"}</div>
-  <div class="card"><h3>🏢 العصابات</h3>${S.gangs.map(g=>`<div class="kv"><span>🔪 ${g.name} (${g.spec}) — ${g.mood}</span><b>قوة ${g.power}</b></div>`).join("")}</div>`;
+  <div class="card"><h3>🏢 العصابات</h3>${S.gangs.map(g=>`<div class="kv"><span>🔪 ${g.name} (${g.spec}) — ${g.mood}</span><b>قوة ${g.power}</b></div>`).join("")}</div>
+  <div class="credit-footer">💻 تطوير <b>Mr Aboudy</b> • <a href="https://wa.me/96181302718" target="_blank" rel="noopener">📱 ‎+96181302718‎</a></div>`;
 }
 function renderMapInfo(){
   const el=document.getElementById("map-legend"); if(!el)return;
@@ -383,7 +384,7 @@ function renderSettings(){
   } else {
     adminCard = `<div class="card"><h3>🔌 الذكاء الاصطناعي</h3><div class="mut small">إعدادات الـAPI تُدار من لوحة الأدمن. إن فشل الاتصال يعمل المولد المحلي تلقائياً.</div></div>`;
   }
-  document.getElementById("tab-settings").innerHTML = accCard + adminCard;
+  document.getElementById("tab-settings").innerHTML = accCard + adminCard + `<div class="card" style="text-align:center"><h3>💻 المطور</h3><div><b>Mr Aboudy</b></div><div class="row" style="margin-top:8px"><a class="btn primary" style="text-decoration:none;text-align:center" href="https://wa.me/96181302718" target="_blank" rel="noopener">📱 واتساب: ‎+96181302718‎</a></div><div class="mut small">لأي دعم أو اقتراحات — راسل المطور مباشرة</div></div>`;
 }
 function adminGrant(n){ window.S.money+=n; addNews("دعم استثنائي","الإدارة العليا ضخت تمويلاً إضافياً للقيادة.","good"); save(); renderAll(); }
 function adminEvent(){ window.S.emergencies.unshift({id:"EM-ADM"+Date.now()%9999,text:pick(window.EMERGENCIES),day:window.S.day,done:false,dist:pick(window.DISTRICTS).name}); save(); renderAll(); }

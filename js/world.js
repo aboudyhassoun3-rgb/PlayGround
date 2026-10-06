@@ -5,9 +5,10 @@ function tick(){
   while(S.min>=60){S.min-=60;S.hour++;}
   if(S.hour>=24){S.hour-=24;S.day++; newDay();}
   else { maybeHourly(); }
-  // العالم المستقل: تحركات حتى بدون تدخل + الحوادث الحية
+  // العالم المستقل: تحركات حتى بدون تدخل + الحوادث الحية + مبادرات الضباط
   autonomous();
   try{ incidentTick(); }catch(e){}
+  try{ maybeOfficerUpdate(); }catch(e){}
   save(); renderHUD();
 }
 function newDay(){

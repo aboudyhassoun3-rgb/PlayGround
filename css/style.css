@@ -109,4 +109,15 @@ summary{font-size:15px;min-height:44px;display:flex;align-items:center}
 #alert-fab{position:fixed;bottom:100px;right:50%;transform:translateX(50%);z-index:55;background:linear-gradient(90deg,#7f1d1d,#ef4444);color:#fff;font-weight:800;border:2px solid #fff;border-radius:99px;padding:12px 22px;font-size:15px;cursor:pointer;animation:fabpulse 1s ease-in-out infinite;box-shadow:0 8px 30px #ef444488;white-space:nowrap}
 #alert-fab.hidden{display:none}
 @keyframes fabpulse{50%{transform:translateX(50%) scale(1.06)}}
+/* ===== الهوية والتنظيم ===== */
+.credit,.credit-footer{text-align:center;color:var(--mut);font-size:12px;margin-top:10px}
+.credit a,.credit-footer a{color:var(--acc);text-decoration:none;font-weight:700}
+.credit-footer{background:#0d1730;border:1px solid var(--line);border-radius:12px;padding:10px}
+.card h3{border-bottom:1px solid #24365f;padding-bottom:8px;margin-bottom:10px}
+.msg .who{color:#7dd3fc}
+.chatbox{background:#070e22}
+.inbox-msg{border-right-color:#7dd3fc}
+.toast{box-shadow:0 6px 24px #0009;max-width:92vw;text-align:center}
+button{font-family:inherit}
+a.btn{display:inline-block}
 summary{cursor:pointer;font-weight:700}
