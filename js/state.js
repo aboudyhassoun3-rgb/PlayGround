@@ -14,7 +14,9 @@ function defaultState(){
     plot:{stage:0,notes:[]}, stats:{solved:0,errors:0,arrests:0},
     seq:{case:1,off:1,news:1}, pendingEvents:[], activeTab:"dash",
     intelReports:0, lastSalaryDay:1, conspiraciesFound:[],
-    incidents:[], inbox:[], alertQueue:[], _tick:0
+    incidents:[], inbox:[], alertQueue:[], _tick:0,
+    informants:[], season:{no:1,startDay:1,theme:0,solvedAtStart:0}, prank:{xp:0},
+    novel:{}, chase:null, quick:null, flash:null, pressCd:0, informSeq:1
   };
 }
 function save(){ try{localStorage.setItem(window.Auth?window.Auth.saveKey():window.GAME_CONFIG.SAVE_KEY, JSON.stringify(window.S));}catch(e){} }

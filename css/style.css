@@ -97,6 +97,10 @@ summary{font-size:15px;min-height:44px;display:flex;align-items:center}
 .poi-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:640px){.poi-list{grid-template-columns:1fr}}
 .poi{border:1px solid var(--line);border-radius:12px;padding:10px;background:#0d1832;font-size:13px}
+/* أنظمة الإثارة: مطاردة + فلاش + موسم */
+#flash-timer{font-size:22px;color:#ffe082}
+.chase-track{font-size:22px;letter-spacing:2px;margin:8px 0}
+.season-banner{background:linear-gradient(90deg,#3b0764,#7c3aed);border-radius:12px;padding:10px;margin-bottom:10px}
 .cell-visual{background:repeating-linear-gradient(90deg,#0a1328 0 26px,#16264a 26px 30px);border:2px solid #3a4a75;border-radius:12px;padding:14px;text-align:center;font-size:40px}
 .needs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:8px 0}
 .need{background:#0a1328;border:1px solid var(--line);border-radius:10px;padding:6px;text-align:center;font-size:12px}
